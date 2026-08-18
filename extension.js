@@ -4,7 +4,7 @@ import St from 'gi://St';
 import Gio from 'gi://Gio';
 import Clutter from 'gi://Clutter';
 
-import { Extension } from 'resource:///org/gnome/shell/extensions/extension.js';
+import { Extension, gettext as _, ngettext } from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import * as PopupMenu from 'resource:///org/gnome/shell/ui/popupMenu.js';
@@ -20,7 +20,6 @@ class BrightnessIndicator extends PanelMenu.Button {
         this._debounceIds = new Map();
         this._displayRows = new Map();
         this._controlAllSwitch = null;
-
         this._syncingSliders = false;
 
         let icon = new St.Icon({
@@ -35,7 +34,7 @@ class BrightnessIndicator extends PanelMenu.Button {
     }
 
     _buildStaticMenu() {
-        this._titleItem = new PopupMenu.PopupMenuItem('External Display Brightness', {
+        this._titleItem = new PopupMenu.PopupMenuItem(_('External Display Brightness'), {
             reactive: false,
             can_focus: false,
         });
@@ -45,7 +44,10 @@ class BrightnessIndicator extends PanelMenu.Button {
         this._displaysSeparator = new PopupMenu.PopupSeparatorMenuItem();
         this.menu.addMenuItem(this._displaysSeparator);
 
-        this._controlAllSwitch = new PopupMenu.PopupSwitchMenuItem('Control all screens', false);
+        this._controlAllSwitch = new PopupMenu.PopupSwitchMenuItem(_('Control all screens'), false);
+        this._controlAllSwitch.connect('activate', (item) => {
+            GObject.signal_stop_emission_by_name(item, 'activate');
+        });
         this.menu.addMenuItem(this._controlAllSwitch);
 
         this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
@@ -56,7 +58,7 @@ class BrightnessIndicator extends PanelMenu.Button {
             style_class: 'external-brightness-row-icon',
         });
         let detectLabel = new St.Label({
-            text: 'Detect screens',
+            text: _('Detect screens'),
             y_align: Clutter.ActorAlign.CENTER,
         });
         detectItem.add_child(detectIcon);
@@ -116,7 +118,6 @@ class BrightnessIndicator extends PanelMenu.Button {
         let current = null;
 
         for (const line of output.split('\n')) {
-
             if (/^Invalid display/.test(line)) {
                 if (current && current.bus !== null)
                     displays.push(current);
@@ -129,7 +130,7 @@ class BrightnessIndicator extends PanelMenu.Button {
             if (dispMatch) {
                 if (current && current.bus !== null)
                     displays.push(current);
-                current = { bus: null, name: `Écran ${dispMatch[1]}` };
+                current = { bus: null, name: _('Display %d').format(dispMatch[1]) };
                 continue;
             }
             if (!current) continue;
@@ -152,9 +153,11 @@ class BrightnessIndicator extends PanelMenu.Button {
 
     _updateInfoMessage(invalidCount) {
         if (invalidCount > 0) {
-            this._infoItem.label.text = invalidCount === 1
-                ? '1 display ignored (not DDC/CI compatible)'
-                : `${invalidCount} displays ignored (not DDC/CI compatible)`;
+            this._infoItem.label.text = ngettext(
+                '%d display ignored (not DDC/CI compatible)',
+                '%d displays ignored (not DDC/CI compatible)',
+                invalidCount
+            ).format(invalidCount);
             this._infoItem.visible = true;
         } else {
             this._infoItem.visible = false;
@@ -168,7 +171,7 @@ class BrightnessIndicator extends PanelMenu.Button {
 
         for (const d of displays) {
             if (counts.get(d.name) > 1)
-                d.name = `${d.name} (bus ${d.bus})`;
+                d.name = `${d.name} ${_('(bus %d)').format(d.bus)}`;
         }
     }
 
@@ -223,7 +226,7 @@ class BrightnessIndicator extends PanelMenu.Button {
                     if (!match) return;
 
                     let row = this._displayRows.get(bus);
-                    if (!row) return; 
+                    if (!row) return;
 
                     let ratio = parseInt(match[1], 10) / parseInt(match[2], 10);
 
