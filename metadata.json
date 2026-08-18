@@ -3,5 +3,6 @@
     "name": "External Display Brightness",
     "description": "A simple extension to control the brightness of external displays via DDC/CI.",
     "shell-version": ["50"],
+    "gettext-domain": "external-brightness@f-creme.github.io",
     "version": 1
 }

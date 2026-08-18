@@ -1,0 +1,27 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: external-brightness\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "External Display Brightness"
+msgstr "Luminosité des écrans externes"
+
+msgid "Control all screens"
+msgstr "Contrôler tous les écrans"
+
+msgid "Detect screens"
+msgstr "Détecter les écrans"
+
+msgid "%d display ignored (not DDC/CI compatible)"
+msgid_plural "%d displays ignored (not DDC/CI compatible)"
+msgstr[0] "%d écran ignoré (non compatible DDC/CI)"
+msgstr[1] "%d écrans ignorés (non compatibles DDC/CI)"
+
+msgid "Display %d"
+msgstr "Écran %d"
+
+msgid "(bus %d)"
+msgstr "(bus %d)"
