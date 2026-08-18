@@ -1,0 +1,24 @@
+.external-brightness-menu {
+    min-width: 20em;
+}
+
+.external-brightness-title {
+    font-weight: bold;
+    font-size: 1em;
+}
+
+.external-brightness-label {
+    font-size: 0.9em;
+    padding-bottom: 6px;
+}
+
+.external-brightness-row-icon {
+    icon-size: 16px;
+    padding-right: 8px;
+}
+
+.external-brightness-info {
+    font-size: 0.8em;
+    font-style: italic;
+    opacity: 0.6;
+}

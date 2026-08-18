@@ -1,0 +1,7 @@
+{
+    "uuid": "external-brightness@f-creme.github.io",
+    "name": "External Display Brightness",
+    "description": "A simple extension to control the brightness of external displays via DDC/CI.",
+    "shell-version": ["50"],
+    "version": 1
+}
