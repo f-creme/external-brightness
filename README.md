@@ -6,12 +6,11 @@ screen), using the DDC/CI protocol.
 
 ## Features
 
-- Panel menu listing every DDC/CI-capable external display, each
-  with its own brightness slider
+- Panel menu listing every DDC/CI-capable external display, each with its own brightness slider
 - "Control all screens" toggle to move every slider together
 - Manual "Detect screens" button to (re)scan connected displays
-- Displays a short notice when non-DDC/CI-capable screens (e.g. a
-  laptop's own panel) are detected and skipped
+- Displays a short notice when non-DDC/CI-capable screens (e.g. a laptop's own panel) are detected and skipped
+- Available in English, French and German, following the system locale (falls back   to English otherwise)
 
 ## Requirements
 
@@ -59,3 +58,13 @@ dbus-run-session gnome-shell --devkit --wayland
 ```
 
 (requires the `mutter-devkit` package)
+
+## Translations
+
+Translations use gettext. Source strings live in `po/`, compiled to `locale/<lang>/LC_MESSAGES/external-brightness@f-creme.github.io.mo` (required for translations to load, since this extension isn't packed via `gnome-extensions pack`).
+
+To add or update a language, edit the relevant `.po` file, then recompile it:
+
+```bash
+msgfmt po/<lang>.po -o locale/<lang>/LC_MESSAGES/external-brightness@f-creme.github.io.mo
+```
